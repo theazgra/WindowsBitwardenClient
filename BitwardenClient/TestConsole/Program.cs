@@ -14,7 +14,7 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            BitwardenClient bwClient = new BitwardenClient("bwclinet@email.cz", "JCgg4K8jRGFURA", true);
+            BitwardenClient bwClient = new BitwardenClient("", "", true);
             bwClient.Login();
 
             //using (StreamReader reader = new StreamReader("item_dump.json"))

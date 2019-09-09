@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="CliInterop\" />
-    <Folder Include="BitwardenCliBinary\" />
+    <Folder Include="NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>

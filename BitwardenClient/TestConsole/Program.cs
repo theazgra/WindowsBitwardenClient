@@ -14,14 +14,18 @@ namespace TestConsole
         static void Main(string[] args)
         {
 
-            //using (StreamReader reader = new StreamReader("single_item.json"))
             using (StreamReader reader = new StreamReader("item_dump.json"))
             {
                 string json = reader.ReadToEnd();
                 IEnumerable<VaultItem> items = JsonConvert.DeserializeObject<IEnumerable<VaultItem>>(json);
-                //VaultItem items = JsonConvert.DeserializeObject<VaultItem>(json);
-
                 Console.WriteLine(items);
+            }
+
+            using (StreamReader reader = new StreamReader("folder_dump.json"))
+            {
+                string json = reader.ReadToEnd();
+                IEnumerable<VaultFolder> folders = JsonConvert.DeserializeObject<IEnumerable<VaultFolder>>(json);
+                Console.WriteLine(folders);
             }
         }
     }

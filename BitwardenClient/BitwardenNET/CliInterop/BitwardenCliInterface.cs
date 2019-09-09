@@ -26,7 +26,7 @@ namespace BitwardenNET.CliInterop
             };
 
             Process bwProcess = Process.Start(processStartInfo);
-            result.Success = bwProcess.WaitForExit(ProcessTimeout);
+            result.TimedOut = !bwProcess.WaitForExit(ProcessTimeout);
 
             result.StandardOutput = bwProcess.StandardOutput.ReadToEnd();
             result.StandardError = bwProcess.StandardError.ReadToEnd();

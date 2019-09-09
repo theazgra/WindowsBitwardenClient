@@ -12,9 +12,11 @@ namespace BitwardenNET.BwLogic
         private const string LogoutCommand = "logout";
         private const string UnlockCommand = "unlock";
         private const string LockCommand = "lock";
+        private const int SuccessExitCode = 0;
 
-        public bool Login(BitwardenCredentials credentials)
+        public bool Login(BitwardenCredentials credentials, out string sessionCode)
         {
+            sessionCode = null;
             CliFlag[] flags;
             if (!string.IsNullOrWhiteSpace(credentials.AuthCode))
             {
@@ -38,11 +40,18 @@ namespace BitwardenNET.BwLogic
             }
 
             BitwardenCliCommandResult result = BitwardenCliInterface.ExecuteCommand(LoginCommand, flags);
-
             ConsoleLogger.Log($"Login exited with code {result.ExitCode}");
             ConsoleLogger.Log(result.StandardOutput);
-            ConsoleLogger.LogError(result.StandardError);
-            return result.Success;
+            if (!result.TimedOut && result.ExitCode == SuccessExitCode)
+            {
+                sessionCode = result.StandardOutput;
+            }
+            else
+            {
+                ConsoleLogger.LogError(result.StandardError);
+            }
+            
+            return result.TimedOut;
         }
 
         public bool UnlockVault(BitwardenCredentials credentials)
@@ -58,9 +67,19 @@ namespace BitwardenNET.BwLogic
 
         public bool Logout()
         {
-            throw new NotImplementedException();
+            BitwardenCliCommandResult result = BitwardenCliInterface.ExecuteCommand(LogoutCommand);
+            ConsoleLogger.Log($"Logout exited with code {result.ExitCode}");
+            ConsoleLogger.Log(result.StandardOutput);
+            
+            if (result.TimedOut || result.ExitCode != SuccessExitCode)
+            {
+                ConsoleLogger.LogError(result.StandardError);
+                return false;
+            }
+            else
+            {
+                return true;   
+            }
         }
-
-
     }
 }

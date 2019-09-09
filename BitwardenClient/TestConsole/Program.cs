@@ -14,8 +14,10 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            BitwardenClient bwClient = new BitwardenClient("", "", true);
+            string[] secrets = File.ReadAllLines("../../../../secrets.txt");
+            BitwardenClient bwClient = new BitwardenClient(secrets[0], secrets[1], true);
             bwClient.Login();
+            bwClient.Logout();
 
             //using (StreamReader reader = new StreamReader("item_dump.json"))
             //{

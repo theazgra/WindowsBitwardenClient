@@ -7,7 +7,7 @@ namespace BitwardenNET.BwLogic
 {
     internal interface IBitwardenLogic
     {
-        bool Login(BitwardenCredentials credentials);
+        bool Login(BitwardenCredentials credentials, out string sessionCode);
         
         bool Logout();
 

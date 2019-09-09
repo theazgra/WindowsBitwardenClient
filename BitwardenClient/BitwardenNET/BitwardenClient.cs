@@ -11,6 +11,7 @@ namespace BitwardenNET
         private bool _unlocked = false;
         private BitwardenCredentials _credentials;
         private bool _stayLogged = false;
+        private string _sessionCode = null;
 
         /// <summary>
         /// The logic is currently implemented through bitwarden-cli tool,
@@ -33,10 +34,9 @@ namespace BitwardenNET
             _stayLogged = stayLogged;
         }
 
-        // TODO(Moravec): We have to return session code!
         public bool Login()
         {
-            return _logic.Login(_credentials);
+            return _logic.Login(_credentials, out _sessionCode);
         }
 
         public bool UnlockVault()

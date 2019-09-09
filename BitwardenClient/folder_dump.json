@@ -1,0 +1,17 @@
+[
+    {
+        "object": "folder",
+        "id": "124279be-14ca-4693-ad24-aac30075e120",
+        "name": "folder1"
+    },
+    {
+        "object": "folder",
+        "id": "6dc7835d-edc1-45be-a98c-aac30076575c",
+        "name": "folder2"
+    },
+    {
+        "object": "folder",
+        "id": null,
+        "name": "No Folder"
+    }
+]

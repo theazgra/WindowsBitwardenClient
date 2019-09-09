@@ -1,0 +1,352 @@
+[
+    {
+        "object": "item",
+        "id": "7bb7e9a0-0fd6-459f-89f5-aac3008e109b",
+        "organizationId": null,
+        "folderId": null,
+        "type": 1,
+        "name": "base_match_detection",
+        "notes": null,
+        "favorite": false,
+        "login": {
+            "uris": [
+                {
+                    "match": 0,
+                    "uri": "tgtrgrt"
+                }
+            ],
+            "username": null,
+            "password": null,
+            "totp": null,
+            "passwordRevisionDate": null
+        },
+        "collectionIds": [],
+        "revisionDate": "2019-09-09T08:37:14.540Z"
+    },
+    {
+        "object": "item",
+        "id": "7a532fa6-b26f-4052-8283-aac30077d7bc",
+        "organizationId": null,
+        "folderId": "6dc7835d-edc1-45be-a98c-aac30076575c",
+        "type": 3,
+        "name": "card1",
+        "notes": "card note",
+        "favorite": false,
+        "fields": [
+            {
+                "name": "text field",
+                "value": "45",
+                "type": 0
+            }
+        ],
+        "card": {
+            "cardholderName": "cardholder",
+            "brand": "Visa",
+            "number": "1111 2222 3333 4444",
+            "expMonth": "1",
+            "expYear": "2020",
+            "code": "111"
+        },
+        "collectionIds": [],
+        "revisionDate": "2019-09-09T07:16:45.633Z"
+    },
+    {
+        "object": "item",
+        "id": "18cff7bd-d794-46a9-9ded-aac3008e0679",
+        "organizationId": null,
+        "folderId": null,
+        "type": 1,
+        "name": "default_match_detection",
+        "notes": null,
+        "favorite": false,
+        "login": {
+            "uris": [
+                {
+                    "match": null,
+                    "uri": "adewf"
+                }
+            ],
+            "username": null,
+            "password": null,
+            "totp": null,
+            "passwordRevisionDate": null
+        },
+        "collectionIds": [],
+        "revisionDate": "2019-09-09T08:37:05.896Z"
+    },
+    {
+        "object": "item",
+        "id": "b2e4e595-452a-4de8-ac74-aac3008e32e8",
+        "organizationId": null,
+        "folderId": null,
+        "type": 1,
+        "name": "exact_match_detection",
+        "notes": null,
+        "favorite": false,
+        "login": {
+            "uris": [
+                {
+                    "match": 3,
+                    "uri": "gtrgtr"
+                }
+            ],
+            "username": null,
+            "password": null,
+            "totp": null,
+            "passwordRevisionDate": null
+        },
+        "collectionIds": [],
+        "revisionDate": "2019-09-09T08:37:43.813Z"
+    },
+    {
+        "object": "item",
+        "id": "f738bafe-e9b8-40e3-8d52-aac300782182",
+        "organizationId": null,
+        "folderId": null,
+        "type": 2,
+        "name": "fav sec note",
+        "notes": "wree",
+        "favorite": true,
+        "secureNote": {
+            "type": 0
+        },
+        "collectionIds": [],
+        "revisionDate": "2019-09-09T07:17:22.990Z"
+    },
+    {
+        "object": "item",
+        "id": "a1ebcca1-6599-40e7-9285-aac30077739c",
+        "organizationId": null,
+        "folderId": "124279be-14ca-4693-ad24-aac30075e120",
+        "type": 1,
+        "name": "favorite login in folder",
+        "notes": "note",
+        "favorite": true,
+        "login": {
+            "uris": [
+                {
+                    "match": 2,
+                    "uri": "gog.com"
+                }
+            ],
+            "username": "user1",
+            "password": "pass1",
+            "totp": null,
+            "passwordRevisionDate": null
+        },
+        "collectionIds": [],
+        "revisionDate": "2019-09-09T07:14:54.600Z"
+    },
+    {
+        "object": "item",
+        "id": "ceb32bd1-982b-4c0a-a204-aac3008e19b8",
+        "organizationId": null,
+        "folderId": null,
+        "type": 1,
+        "name": "host_match_detection",
+        "notes": null,
+        "favorite": false,
+        "login": {
+            "uris": [
+                {
+                    "match": 1,
+                    "uri": "grtgt"
+                }
+            ],
+            "username": null,
+            "password": null,
+            "totp": null,
+            "passwordRevisionDate": null
+        },
+        "collectionIds": [],
+        "revisionDate": "2019-09-09T08:37:22.316Z"
+    },
+    {
+        "object": "item",
+        "id": "1f1a1c5a-57b0-4f00-af05-aac30075c473",
+        "organizationId": null,
+        "folderId": null,
+        "type": 1,
+        "name": "login name",
+        "notes": "note",
+        "favorite": false,
+        "fields": [
+            {
+                "name": "text field",
+                "value": "text value",
+                "type": 0
+            },
+            {
+                "name": "hidden field",
+                "value": "hidden",
+                "type": 1
+            },
+            {
+                "name": "boolean field true",
+                "value": "true",
+                "type": 2
+            },
+            {
+                "name": "boolean field false",
+                "value": "false",
+                "type": 2
+            }
+        ],
+        "login": {
+            "uris": [
+                {
+                    "match": null,
+                    "uri": "www.seznam.cz"
+                },
+                {
+                    "match": 0,
+                    "uri": "www.seznam2.cz"
+                }
+            ],
+            "username": "user name",
+            "password": "user passsword",
+            "totp": "123456",
+            "passwordRevisionDate": null
+        },
+        "collectionIds": [],
+        "revisionDate": "2019-09-09T07:08:46.676Z"
+    },
+    {
+        "object": "item",
+        "id": "e0568ba3-c51b-458e-89d3-aac3007894a1",
+        "organizationId": null,
+        "folderId": "124279be-14ca-4693-ad24-aac30075e120",
+        "type": 4,
+        "name": "name_val",
+        "notes": "note_val",
+        "favorite": false,
+        "fields": [
+            {
+                "name": "text",
+                "value": "text t gtr",
+                "type": 0
+            },
+            {
+                "name": "hidden test",
+                "value": "15654",
+                "type": 1
+            }
+        ],
+        "identity": {
+            "title": "Mr",
+            "firstName": "fname_val",
+            "middleName": "mname_val",
+            "lastName": "lname_val",
+            "address1": "addr1_val",
+            "address2": "addr2_val",
+            "address3": "addr3_val",
+            "city": "city_val",
+            "state": "state_val",
+            "postalCode": "zip_val",
+            "country": "country_val",
+            "company": "company_val",
+            "email": "em_val",
+            "phone": "phone_val",
+            "ssn": "ssn_val",
+            "username": "uname_val",
+            "passportNumber": "pass_val",
+            "licenseNumber": "lic_val"
+        },
+        "collectionIds": [],
+        "revisionDate": "2019-09-09T07:19:01.230Z"
+    },
+    {
+        "object": "item",
+        "id": "d8e49cb1-cedb-455a-9287-aac3008e40f8",
+        "organizationId": null,
+        "folderId": null,
+        "type": 1,
+        "name": "never_match_detection",
+        "notes": null,
+        "favorite": false,
+        "login": {
+            "uris": [
+                {
+                    "match": 5,
+                    "uri": "gtrrt"
+                }
+            ],
+            "username": null,
+            "password": null,
+            "totp": null,
+            "passwordRevisionDate": null
+        },
+        "collectionIds": [],
+        "revisionDate": "2019-09-09T08:37:55.813Z"
+    },
+    {
+        "object": "item",
+        "id": "2a852d6f-9cc6-4868-84a2-aac3008e2a64",
+        "organizationId": null,
+        "folderId": null,
+        "type": 1,
+        "name": "regex_match_detection",
+        "notes": null,
+        "favorite": false,
+        "login": {
+            "uris": [
+                {
+                    "match": 4,
+                    "uri": "grtyhyt"
+                }
+            ],
+            "username": null,
+            "password": null,
+            "totp": null,
+            "passwordRevisionDate": null
+        },
+        "collectionIds": [],
+        "revisionDate": "2019-09-09T08:37:36.546Z"
+    },
+    {
+        "object": "item",
+        "id": "97e2762d-c6cb-49e8-809b-aac30078117e",
+        "organizationId": null,
+        "folderId": "6dc7835d-edc1-45be-a98c-aac30076575c",
+        "type": 2,
+        "name": "secnote1",
+        "notes": "note",
+        "favorite": false,
+        "fields": [
+            {
+                "name": "bul tru",
+                "value": "true",
+                "type": 2
+            }
+        ],
+        "secureNote": {
+            "type": 0
+        },
+        "collectionIds": [],
+        "revisionDate": "2019-09-09T07:17:09.326Z"
+    },
+    {
+        "object": "item",
+        "id": "53a9619f-141c-4ec7-bcef-aac3008e2304",
+        "organizationId": null,
+        "folderId": null,
+        "type": 1,
+        "name": "starts_with_match_detection",
+        "notes": null,
+        "favorite": false,
+        "login": {
+            "uris": [
+                {
+                    "match": 2,
+                    "uri": "freer"
+                }
+            ],
+            "username": null,
+            "password": null,
+            "totp": null,
+            "passwordRevisionDate": null
+        },
+        "collectionIds": [],
+        "revisionDate": "2019-09-09T08:37:30.253Z"
+    }
+]

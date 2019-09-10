@@ -22,15 +22,23 @@ namespace BitwardenNET.CliInterop
                 RedirectStandardError = true,
                 RedirectStandardOutput = true,
                 UseShellExecute=false,
-                Arguments = ConstructArguments(command, flags)
+                Arguments = ConstructArguments(command, flags),
             };
 
             Process bwProcess = Process.Start(processStartInfo);
             result.TimedOut = !bwProcess.WaitForExit(ProcessTimeout);
 
-            result.StandardOutput = bwProcess.StandardOutput.ReadToEnd();
-            result.StandardError = bwProcess.StandardError.ReadToEnd();
-            result.ExitCode = bwProcess.ExitCode;
+            if (result.TimedOut)
+            {
+                bwProcess.Kill();
+            }
+            else
+            {
+                result.StandardOutput = bwProcess.StandardOutput.ReadToEnd();
+                result.StandardError = bwProcess.StandardError.ReadToEnd();
+                result.ExitCode = bwProcess.ExitCode;
+            }
+            
             return result;
         }
 

@@ -9,17 +9,22 @@ namespace BitwardenNET.CliInterop
         /// <summary>
         /// User email.
         /// </summary>
-        public string Email { get; set; }
+        internal string Email { get; set; }
 
         /// <summary>
         /// User's master password.
         /// </summary>
-        public string Password { get; set; }
-        
+        internal string Password { get; set; }
+
         /// <summary>
         /// 2FA authentication code if 2FA is enabled.
         /// </summary>
-        public string AuthCode { get; set; }
+        internal string AuthCode { get; set; }
+
+        /// <summary>
+        /// Current session code.
+        /// </summary>
+        internal string SessionCode { get; set; }
 
         /// <summary>
         /// Simple credentials without 2FA.

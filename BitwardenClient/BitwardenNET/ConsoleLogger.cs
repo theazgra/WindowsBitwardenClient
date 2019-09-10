@@ -8,6 +8,9 @@ namespace BitwardenNET
     {
         internal static void LogError(string err)
         {
+            if (string.IsNullOrWhiteSpace(err))
+                return;
+
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Error:");
             Console.WriteLine(err);
@@ -16,6 +19,9 @@ namespace BitwardenNET
 
         internal static void Log(string msg)
         {
+            if (string.IsNullOrWhiteSpace(msg))
+                return;
+            
             Console.WriteLine("Log:");
             Console.WriteLine(msg);
         }

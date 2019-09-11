@@ -12,5 +12,10 @@ namespace BitwardenNET.VaultTypes
         [JsonProperty("name")]
         public string Name { get; set; }
         public VaultObjectType ObjectType => VaultObjectType.Folder;
+
+        public override string ToString()
+        {
+            return $"VaultFolder; Name: {Name}; Id: {Id}";
+        }
     }
 }

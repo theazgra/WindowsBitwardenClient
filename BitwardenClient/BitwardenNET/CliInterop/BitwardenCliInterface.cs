@@ -10,7 +10,7 @@ namespace BitwardenNET.CliInterop
     internal static class BitwardenCliInterface
     {
         private static readonly string Bitwarden_CLI_Binary = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BitwardenCliBinary", "bw.exe");
-        internal static int ProcessTimeout = 30_000;
+        internal static int ProcessTimeout = 10_000;
 
         internal static BitwardenCliCommandResult ExecuteCommand(string command, params CliFlag[] flags)
         {
@@ -21,8 +21,8 @@ namespace BitwardenNET.CliInterop
                 CreateNoWindow = true,
                 RedirectStandardError = true,
                 RedirectStandardOutput = true,
-                UseShellExecute=false,
-                Arguments = ConstructArguments(command, flags),
+                UseShellExecute = false,
+                Arguments = ConstructArguments(command, flags)
             };
 
             Process bwProcess = Process.Start(processStartInfo);
@@ -31,6 +31,7 @@ namespace BitwardenNET.CliInterop
             if (result.TimedOut)
             {
                 bwProcess.Kill();
+                ConsoleDebugLogger.LogError("Process timeout. Process was killed without result.");
             }
             else
             {
@@ -38,7 +39,34 @@ namespace BitwardenNET.CliInterop
                 result.StandardError = bwProcess.StandardError.ReadToEnd();
                 result.ExitCode = bwProcess.ExitCode;
             }
-            
+
+            return result;
+        }
+
+        internal static BitwardenCliCommandResult ExecuteCommandWithoutIO(string command, params CliFlag[] flags)
+        {
+            BitwardenCliCommandResult result = new BitwardenCliCommandResult();
+
+            ProcessStartInfo processStartInfo = new ProcessStartInfo(Bitwarden_CLI_Binary)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                Arguments = ConstructArguments(command, flags)
+            };
+
+            Process bwProcess = Process.Start(processStartInfo);
+            result.TimedOut = !bwProcess.WaitForExit(ProcessTimeout);
+
+            if (result.TimedOut)
+            {
+                bwProcess.Kill();
+                ConsoleDebugLogger.LogError("Process timeout. Process was killed without result.");
+            }
+            else
+            {
+                result.ExitCode = bwProcess.ExitCode;
+            }
+
             return result;
         }
 

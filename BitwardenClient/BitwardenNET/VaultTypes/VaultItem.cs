@@ -58,13 +58,13 @@ namespace BitwardenNET.VaultTypes
             switch (ItemType)
             {
                 case VaultItemType.Login:
-                    return $"Login item - {Name}";
+                    return $"VaultItem; Type: Login; Name: {Name}; Id: {Id}; FolderId: {FolderId}";
                 case VaultItemType.Note:
-                    return $"Note item - {Name}";
+                    return $"VaultItem; Type: SecureNote; Name: {Name}; Id: {Id}; FolderId: {FolderId}";
                 case VaultItemType.Card:
-                    return $"Card item - {Name}";
+                    return $"VaultItem; Type: Card; Name: {Name}; Id: {Id}; FolderId: {FolderId}";
                 case VaultItemType.Identity:
-                    return $"Identity item - {Name}";
+                    return $"VaultItem; Type: Identity; Name: {Name}; Id: {Id}; FolderId: {FolderId}";
             }
             return base.ToString();
         }

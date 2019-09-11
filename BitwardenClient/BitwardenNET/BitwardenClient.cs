@@ -1,5 +1,6 @@
 ﻿using BitwardenNET.BwLogic;
 using BitwardenNET.CliInterop;
+using BitwardenNET.VaultTypes;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -56,7 +57,24 @@ namespace BitwardenNET
         /// <returns>True if login was successful.</returns>
         public bool Login()
         {
+            // Check if someone is already logged.
+            if (CheckForLoggedUser())
+            {
+                // If someone is logged and it is different user logout him and chage UserEmail.
+                if (UserEmail != _credentials.Email)
+                {
+                    Logout();
+                    UserEmail = _credentials.Email;
+                }
+                else
+                {
+                    ConsoleDebugLogger.Log($"User {UserEmail} is already logged in.");
+                    return true;
+                }
+            }
+
             IsUserLoggedIn = _logic.Login(_credentials);
+            ConsoleDebugLogger.Log(string.Format("Login {0}", IsUserLoggedIn ? "successful" : "failed"));
             return IsUserLoggedIn;
         }
 
@@ -67,13 +85,13 @@ namespace BitwardenNET
         public bool Logout()
         {
             IsUserLoggedIn = !_logic.Logout();
-
+            ConsoleDebugLogger.Log(string.Format("Logout {0}", !IsUserLoggedIn ? "successful" : "failed"));
+            
             if (!IsUserLoggedIn && IsVaultUnlocked)
             {
                 IsVaultUnlocked = false;
                 UserEmail = string.Empty;
             }
-
             return !IsUserLoggedIn;
         }
 
@@ -85,10 +103,12 @@ namespace BitwardenNET
         {
             if (!IsUserLoggedIn)
             {
-                ConsoleLogger.LogError("Cann't unlock the vault because the user is not logged in.");
+                ConsoleDebugLogger.LogError("Cann't unlock the vault because the user is not logged in.");
                 return false;
             }
             IsVaultUnlocked = _logic.UnlockVault(_credentials);
+            ConsoleDebugLogger.Log(string.Format("Unlocking vault {0}", IsVaultUnlocked ? "successful" : "failed"));
+
             return IsVaultUnlocked;
         }
 
@@ -111,17 +131,48 @@ namespace BitwardenNET
         public bool LockVault()
         {
             IsVaultUnlocked = !_logic.LockVault();
+            ConsoleDebugLogger.Log(string.Format("Locking vault {0}", !IsVaultUnlocked ? "successful" : "failed"));
             return !IsVaultUnlocked;
+        }
+
+        public bool TryGetVaultData(out VaultData vaultFolders)
+        {
+            vaultFolders = null;
+            if (!CheckUnlockedVault())
+                return false;
+
+            vaultFolders = _logic.GetVaultData(_credentials);
+            return (vaultFolders != null);
+        }
+
+
+        private bool CheckUnlockedVault()
+        {
+            if (!IsUserLoggedIn)
+            {
+                ConsoleDebugLogger.LogError("[CheckUnlockedVault] The user is not logged in.");
+                return false;
+            }
+
+            if (!IsVaultUnlocked)
+            {
+                ConsoleDebugLogger.LogError("[CheckUnlockedVault] The vault is not unlocked.");
+                return false;
+            }
+            return true;
         }
 
         public void Dispose()
         {
+            ConsoleDebugLogger.Log("Disposing BitwardenClient");
             if (IsVaultUnlocked)
             {
+                ConsoleDebugLogger.Log("[Dispose] Locking unlocked vault.");
                 _logic.LockVault();
             }
             if (!_stayLogged)
             {
+                ConsoleDebugLogger.Log("[Dispose] Logging off (_stayLogged = false).");
                 _logic.Logout();
             }
         }

@@ -3,6 +3,7 @@ using BitwardenNET.VaultTypes;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BitwardenNET.BwLogic
 {
@@ -21,5 +22,6 @@ namespace BitwardenNET.BwLogic
         bool SyncVault(BitwardenCredentials credentials);
 
         VaultData GetVaultData(BitwardenCredentials credentials);
+        Task<VaultData> GetVaultDataAsync(BitwardenCredentials credentials);
     }
 }

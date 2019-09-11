@@ -5,6 +5,7 @@ using System.Text;
 using BitwardenNET.VaultTypes;
 using Newtonsoft.Json;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace BitwardenNET.BwLogic
 {
@@ -17,6 +18,7 @@ namespace BitwardenNET.BwLogic
         private const string UnlockCommand = "unlock";
         private const string LockCommand = "lock";
         private const string ExportCommand = "export";
+        private const string ListCommand = "list";
         private const string SyncCommand = "sync";
         private const string AlreadyLoggedMessage = "You are already logged in as ";
         private const int SuccessExitCode = 0;
@@ -138,6 +140,11 @@ namespace BitwardenNET.BwLogic
             return (result.ExitCode == SuccessExitCode && !result.TimedOut);
         }
 
+        public Task<VaultData> GetVaultDataAsync(BitwardenCredentials credentials)
+        {
+            return Task<VaultData>.Factory.StartNew(() => GetVaultData(credentials));
+        }
+
         public VaultData GetVaultData(BitwardenCredentials credentials)
         {
             if (!CheckSessionCode(credentials))
@@ -145,45 +152,39 @@ namespace BitwardenNET.BwLogic
                 return null;
             }
 
-            string tmpFilePath = Path.GetTempFileName();
-            Console.WriteLine("tmp file: " + tmpFilePath);
+            BitwardenCliCommandResult vaultItemsResult = BitwardenCliInterface.ExecuteCommand(ListCommand,
+                                                                                    BwRawFlag,
+                                                                                    CliFlag.StringValue("items"),
+                                                                                    CliFlag.FlagWithValue("session", credentials.SessionCode));
+
+            if (vaultItemsResult.TimedOut || vaultItemsResult.ExitCode != SuccessExitCode)
+            {
+                ConsoleDebugLogger.LogError("Failed to get vault items.");
+                return null;
+            }
+
+            BitwardenCliCommandResult vaultFoldersResults = BitwardenCliInterface.ExecuteCommand(ListCommand,
+                                                                                  BwRawFlag,
+                                                                                  CliFlag.StringValue("folders"),
+                                                                                  CliFlag.FlagWithValue("session", credentials.SessionCode));
+
+            if (vaultFoldersResults.TimedOut || vaultFoldersResults.ExitCode != SuccessExitCode)
+            {
+                ConsoleDebugLogger.LogError("Failed to get vault folders.");
+                return null;
+            }
 
             try
             {
-                BitwardenCliCommandResult result = BitwardenCliInterface.ExecuteCommandWithoutIO(ExportCommand,
-                                                                                                BwRawFlag,
-                                                                                                CliFlag.FlagWithValue("format", "json"),
-                                                                                                CliFlag.FlagWithValue("output", tmpFilePath),
-                                                                                                CliFlag.FlagWithValue("session", credentials.SessionCode),
-                                                                                                CliFlag.StringValue(credentials.Password));
-
-                if (result.TimedOut || result.ExitCode != SuccessExitCode)
-                {
-                    File.Delete(tmpFilePath);
-                    return null;
-                }
-
-                string jsonExport = File.ReadAllText(tmpFilePath);
-                File.Delete(tmpFilePath);
-
-                try
-                {
-                    VaultData data = JsonConvert.DeserializeObject<VaultData>(jsonExport);
-                    return data;
-                }
-                catch (JsonException ex)
-                {
-                    ConsoleDebugLogger.LogError("Failed JsonDeserialization in [GetVaultData]");
-                    ConsoleDebugLogger.LogError(ex.Message);
-                    return null;
-                }
+                IEnumerable<VaultItem> items = JsonConvert.DeserializeObject<IEnumerable<VaultItem>>(vaultItemsResult.StandardOutput);
+                IEnumerable<VaultFolder> folders = JsonConvert.DeserializeObject<IEnumerable<VaultFolder>>(vaultFoldersResults.StandardOutput);
+                return new VaultData() { VaultFolders = folders, VaultItems = items };
             }
-            finally
+            catch (JsonException ex)
             {
-                if (File.Exists(tmpFilePath))
-                {
-                    File.Delete(tmpFilePath);
-                }
+                ConsoleDebugLogger.LogError("Failed JsonDeserialization in [GetVaultData]");
+                ConsoleDebugLogger.LogError(ex.Message);
+                return null;
             }
         }
 

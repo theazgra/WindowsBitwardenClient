@@ -14,25 +14,26 @@ namespace TestConsole
     class Program
     {
         static StringBuilder stdoutBuffer = new StringBuilder();
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             string[] secrets = File.ReadAllLines("../../../../secrets.txt");
             using (BitwardenClient bwClient = new BitwardenClient(secrets[0], secrets[1], false))
             {
                 bwClient.Login();
                 bwClient.UnlockVault();
-                
-                if (bwClient.TryGetVaultData(out VaultData vaultData))
+
+                var vaultData = await bwClient.GetVaultDataAsync();
+                if (vaultData.Success)
                 {
 
                     Console.WriteLine("Vault folders listing:");
-                    foreach (VaultFolder folder in vaultData.VaultFolders)
+                    foreach (VaultFolder folder in vaultData.Result.VaultFolders)
                     {
                         Console.WriteLine(folder);
                     }
 
                     Console.WriteLine("Vault items listing:");
-                    foreach (VaultItem item in vaultData.VaultItems)
+                    foreach (VaultItem item in vaultData.Result.VaultItems)
                     {
                         Console.WriteLine(item);
                     }

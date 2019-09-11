@@ -25,19 +25,45 @@ namespace BitwardenNET.CliInterop
                 Arguments = ConstructArguments(command, flags)
             };
 
-            Process bwProcess = Process.Start(processStartInfo);
-            result.TimedOut = !bwProcess.WaitForExit(ProcessTimeout);
+            /*
+                Process p = new Process();
+                p.StartInfo = psi;
+                p.OutputDataReceived += (sender, data) => Console.WriteLine("recv: " + data.Data);
+                p.Start();
+                p.BeginOutputReadLine();
+                p.WaitForExit(); 
+             */
+            StringBuilder stdOutBuffer = new StringBuilder();
+            StringBuilder stdErrBuffer = new StringBuilder();
 
-            if (result.TimedOut)
+
+            using (Process bwProcess = new Process() { StartInfo = processStartInfo })
             {
-                bwProcess.Kill();
-                ConsoleDebugLogger.LogError("Process timeout. Process was killed without result.");
-            }
-            else
-            {
-                result.StandardOutput = bwProcess.StandardOutput.ReadToEnd();
-                result.StandardError = bwProcess.StandardError.ReadToEnd();
-                result.ExitCode = bwProcess.ExitCode;
+                bwProcess.OutputDataReceived += (sender, processData) => stdOutBuffer.Append(processData.Data);
+                bwProcess.ErrorDataReceived += (sender, processData) => stdErrBuffer.Append(processData.Data);
+                
+
+                if (!bwProcess.Start())
+                {
+                    ConsoleDebugLogger.LogError("Failed to start bitwarden process.");
+                    result.ExitCode = -1;
+                    return result;
+                }
+                
+                bwProcess.BeginOutputReadLine();
+                result.TimedOut = !bwProcess.WaitForExit(ProcessTimeout);
+
+                if (result.TimedOut)
+                {
+                    bwProcess.Kill();
+                    ConsoleDebugLogger.LogError("Process timeout. Process was killed without result.");
+                }
+                else
+                {
+                    result.StandardOutput = stdOutBuffer.ToString();
+                    result.StandardError = stdErrBuffer.ToString();
+                    result.ExitCode = bwProcess.ExitCode;
+                }
             }
 
             return result;

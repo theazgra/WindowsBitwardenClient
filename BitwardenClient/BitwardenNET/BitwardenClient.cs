@@ -4,6 +4,7 @@ using BitwardenNET.VaultTypes;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BitwardenNET
 {
@@ -135,14 +136,18 @@ namespace BitwardenNET
             return !IsVaultUnlocked;
         }
 
-        public bool TryGetVaultData(out VaultData vaultFolders)
+        public async Task<AsyncResult<VaultData>> GetVaultDataAsync()
         {
-            vaultFolders = null;
+            AsyncResult<VaultData> result = new AsyncResult<VaultData>();
             if (!CheckUnlockedVault())
-                return false;
+            {
+                result.ErrorMessage = "The user is not logged in or the vault is not unlocked";
+                return result;
+            }
 
-            vaultFolders = _logic.GetVaultData(_credentials);
-            return (vaultFolders != null);
+            result.Result = await _logic.GetVaultDataAsync(_credentials);
+            result.Success = result.Result != null;
+            return result;
         }
 
 

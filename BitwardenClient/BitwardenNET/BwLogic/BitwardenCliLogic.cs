@@ -17,6 +17,7 @@ namespace BitwardenNET.BwLogic
         private const string LogoutCommand = "logout";
         private const string UnlockCommand = "unlock";
         private const string LockCommand = "lock";
+        private const string GenerateCommand = "generate";
         private const string ExportCommand = "export";
         private const string ListCommand = "list";
         private const string SyncCommand = "sync";
@@ -201,6 +202,39 @@ namespace BitwardenNET.BwLogic
                 return false;
             }
             return true;
+        }
+
+        public string GenerateString(short len, bool uc, bool lc, bool n, bool sc)
+        {
+            List<CliFlag> flags = new List<CliFlag>(6);
+            flags.Add(BwRawFlag);
+            flags.Add(CliFlag.FlagWithValue("length", len));
+            if (uc)
+            {
+                flags.Add(CliFlag.Flag('u'));
+            }
+            if (lc)
+            {
+                flags.Add(CliFlag.Flag('l'));
+            }
+            if (n)
+            {
+                flags.Add(CliFlag.Flag('n'));
+            }
+            if (sc)
+            {
+                flags.Add(CliFlag.Flag('s'));
+            }
+
+            var generateResult = BitwardenCliInterface.ExecuteCommand(GenerateCommand, flags.ToArray());
+            if (!generateResult.TimedOut && generateResult.ExitCode == SuccessExitCode)
+            {
+                return generateResult.StandardOutput;
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
     }
 }

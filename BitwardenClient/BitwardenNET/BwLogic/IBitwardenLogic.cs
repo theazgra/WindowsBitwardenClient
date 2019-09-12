@@ -22,6 +22,9 @@ namespace BitwardenNET.BwLogic
         bool SyncVault(BitwardenCredentials credentials);
 
         VaultData GetVaultData(BitwardenCredentials credentials);
+
         Task<VaultData> GetVaultDataAsync(BitwardenCredentials credentials);
+
+        string GenerateString(short len, bool uc, bool lc, bool n, bool sc);
     }
 }

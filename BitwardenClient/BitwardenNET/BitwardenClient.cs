@@ -28,6 +28,10 @@ namespace BitwardenNET
         /// </summary>
         public bool IsVaultUnlocked { get; private set; } = false;
 
+        /// <summary>
+        /// Random string generator.
+        /// </summary>
+        public BwGenerator Generator { get; } = new BwGenerator();
 
         /// <summary>
         /// The logic is currently implemented through bitwarden-cli tool,
